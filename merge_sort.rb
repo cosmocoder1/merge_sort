@@ -1,38 +1,36 @@
 arr = [6, 3, 1, 8, 2, 5, 4, 7]
-$left_child = []
-$right_child = []
 
-def format_arr (arr)
-  puts arr.inspect
-  #puts merge(arr[0], arr[1])
 
+def divide_array (arr)
+  left_arr = []
+  right_arr = []
+  arr.map.with_index { |value, i| i <= (arr.length - 1) / 2 ? left_arr.push(value) : right_arr.push(value) }
+  return [left_arr, right_arr]  
 end  
 
-=begin
+
 def merge (arr1, arr2)
-  result_arr = []
-  arr2[1] < arr1[0] ? result_arr.push(arr2[1], arr1[0]) : sorted_left.push(arr1[0], arr2[1])
-  return result_arr
+  result = []
+  while !arr1.empty? > 0 && !arr2.empty? > 0 do
+    arr1[0] < arr2[0] ? result.push(arr1.shift) : result.push(arr2.shift) 
+  end  
+   result + arr1 + arr2
 end  
-=end
+
 
 def sort (arr)
-  if left_channel.length == 0 || right_channel.length == 0
-    return 0
+
+  if arr.length == 1 
+    return arr
   end 
 
-  left_channel = arr
-  right_channel = arr
+  divided_array = divide_array(arr)
 
-  sort(left_channel.slice(0, left_channel.length / 2))
-  $left_child.push(left_channel)
-  $right_child.push(right_channel.slice(right_channel.length / 2, right_channel.length - 1))
+  left_arr = sort(divided_array[0].slice(0, arr.length - 1))
+  right_arr = sort(divided_array[1].slice(0, arr.length - 1))
+  merge(left_arr, right_arr)
   
-
 end 
 
 
 sort(arr)
-puts $left_child.inspect
-puts $right_child.inspect
-#format_arr($sorted_arr)
